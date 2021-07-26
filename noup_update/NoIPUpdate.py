@@ -13,7 +13,6 @@ CHROMEDRIVER = "/usr/bin/chromedriver"
 
 
 def send_slack(hookurl, msg):
-    hookurl = 'https://hooks.slack.com/services/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'
     slack = slackweb.Slack(url=hookurl)
     slack.notify(title='NoIP Notify', text=msg)
 
