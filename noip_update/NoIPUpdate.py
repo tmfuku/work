@@ -59,7 +59,6 @@ def AutoLogin(conf):
 def update(browser, conf):
 
     active_elm = browser.find_element_by_xpath('//*[@id="content-wrapper"]/div[1]/div[2]/div[1]/div[1]/div[1]/div/div/div/div/div/span[2]')
-    print(active_elm)
     active_elm.click()
     time.sleep(5)
     
@@ -70,12 +69,22 @@ def update(browser, conf):
     print(host_elm.text)
     send_slack(conf['slackHookUrl'], host_elm.text)
 
+    confirm_btn = browser.find_element_by_xpath('//*[@id="host-panel"]/table/tbody/tr/td[5]/button')
+
+    print(confirm_btn.text)
+    if confirm_btn.text == 'Confirm':
+        print('exec update')
+        confirm_btn.click()
+        send_slack(conf['slackHookUrl'], 'Updated')
+        time.sleep(3)
+
 
 if __name__ == '__main__':
     with open('NoIPUpdate.json', 'r') as f:
         conf = json.load(f)
     browser = AutoLogin(conf)
     update(browser, conf)
+    browser.close()
     
 
 
