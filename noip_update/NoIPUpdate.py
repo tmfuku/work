@@ -80,7 +80,8 @@ def update(browser, conf):
 
 
 if __name__ == '__main__':
-    with open('NoIPUpdate.json', 'r') as f:
+    cwd = os.path.dirname(os.path.abspath(__file__))
+    with open(f'{cwd}/NoIPUpdate.json', 'r') as f:
         conf = json.load(f)
     browser = AutoLogin(conf)
     update(browser, conf)
