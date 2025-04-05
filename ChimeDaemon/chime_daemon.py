@@ -63,7 +63,7 @@ class PopupWindow(QMainWindow):
 
 
 class ChimeDaemon:
-    def __init__(self, host='0.0.0.0', port=5000, sound_file=None):
+    def __init__(self, host='0.0.0.0', port=9358, sound_file=None):
         self.host = host
         self.port = port
         
@@ -76,6 +76,7 @@ class ChimeDaemon:
         
         # UDPソケットの初期化
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        self.socket.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)  # ブロードキャスト受信の設定
         self.socket.bind((self.host, self.port))
         
         # QTアプリケーション
@@ -158,7 +159,7 @@ if __name__ == "__main__":
     print("チャイムデーモンを起動します...")
     
     # コマンドライン引数からポート番号とサウンドファイルを取得（オプション）
-    port = 5000  # デフォルトポート
+    port = 9358  # デフォルトポート
     sound_file = None
     
     if len(sys.argv) > 1:
